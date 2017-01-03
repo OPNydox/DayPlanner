@@ -7,13 +7,20 @@ import app.BussinessLayer.Factories.Interfaces.EventFactory;
  */
 public class FactoryProducer {
 
-    public EventFactory createFactory(String factoryType){
-        if(factoryType.equalsIgnoreCase("meeting")){
-            return new MeetingFactory();
-        } else if (factoryType.equalsIgnoreCase("task")){
-            return new TaskFactory();
-        } else {
-            return null;
+    public EventFactory createFactory(String factoryType) {
+        EventFactory finalFactory = null;
+
+        try {
+            Class<?> wildFactory = Class.forName("app.BussinessLayer.Factories." + factoryType + "Factory");
+
+            Class<? extends EventFactory > mySubTypeFactory =
+                    (wildFactory.asSubclass(EventFactory.class));
+
+            finalFactory = mySubTypeFactory.newInstance();
+        } catch (Exception ex){
+            ex.printStackTrace();
         }
+
+        return finalFactory;
     }
 }
