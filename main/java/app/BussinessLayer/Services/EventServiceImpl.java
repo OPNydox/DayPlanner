@@ -7,6 +7,7 @@ import app.Common.models.ViewModels.EventView;
 import app.DataLayer.domain.models.EventDA;
 import app.DataLayer.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 /**
  * Created by Ico on 28.12.2016 г..
  */
+@Service
 public class EventServiceImpl implements EventService {
 
     @Autowired
