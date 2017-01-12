@@ -7,6 +7,9 @@ import app.Common.models.ViewModels.EventView;
 import app.DataLayer.domain.models.EventDA;
 import app.DataLayer.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
@@ -15,13 +18,14 @@ import java.util.List;
 /**
  * Created by Ico on 28.12.2016 г..
  */
-@Service
+@Service(value = "eventService")
 public class EventServiceImpl implements EventService {
 
     @Autowired
-    private FactoryProducer factoryProducer;
+    private FactoryProducer factoryProducer = new FactoryProducer();
 
     @Autowired
+    @Qualifier("eventRepository")
     private EventRepository eventRepository;
 
 
@@ -35,17 +39,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void updateEvent(EventView eventToUpdate) {
-        EventFactory factory = factoryProducer.createFactory(eventToUpdate.getType());
-
-        EventDA eventDA = factory.createEvent(eventToUpdate);
-
-        eventRepository.save(eventDA);
+    public void updateEvent(EventDA eventToUpdate) {
+        eventRepository.save(eventToUpdate);
     }
 
     @Override
-    public void deleteEvent(EventView eventToDelete) {
-        eventRepository.deleteByName(eventToDelete.getName());
+    public void deleteEvent(EventDA eventToDelete) {
+        eventRepository.delete(eventToDelete);
     }
 
     @Override
@@ -57,18 +57,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventDA getEventByName() {
-        return null;
+    public EventDA getEventByName(String name) {
+        return eventRepository.findOneByName(name);
+
     }
 
-    @Override
-    public EventDA popEvent(String eventName) {
-        EventDA poppedEvent = eventRepository.findOneByName(eventName);
-
-        eventRepository.deleteByName(eventName);
-
-        return poppedEvent;
-    }
 
 
 }
