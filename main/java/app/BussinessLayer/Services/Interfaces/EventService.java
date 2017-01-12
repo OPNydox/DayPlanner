@@ -11,14 +11,13 @@ import java.util.List;
 public interface EventService {
     void registerEvent(EventView eventToRegister);
 
-    void updateEvent(EventView eventToUpdate);
+    void updateEvent(EventDA eventToUpdate);
 
-    void deleteEvent(EventView eventToDelete);
+    void deleteEvent(EventDA eventToDelete);
 
     List<EventDA> getEvents();
 
-    EventDA getEventByName();
+    EventDA getEventByName(String name);
 
-    EventDA popEvent(String eventName);
 
 }
