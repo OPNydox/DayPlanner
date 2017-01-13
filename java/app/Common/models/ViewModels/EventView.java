@@ -1,5 +1,7 @@
 package app.Common.models.ViewModels;
 
+import java.util.Date;
+
 /**
  * Created by Ico on 28.12.2016 г..
  */
@@ -13,11 +15,7 @@ public abstract class EventView {
 
     private String minutes;
 
-    private String day;
-
-    private String month;
-
-    private String year;
+    private Date date;
 
     private String description;
 
@@ -59,28 +57,12 @@ public abstract class EventView {
         this.minutes = minutes;
     }
 
-    public String getDay() {
-        return day;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public void setMonth(String month) {
-        this.month = month;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getDescription() {

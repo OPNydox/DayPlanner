@@ -15,9 +15,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
-import java.nio.file.OpenOption;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -29,29 +33,15 @@ import java.util.Optional;
 /**
  * Created by Ico on 9.1.2017 г..
  */
-@Component
-public class EventController extends Application{
-    private EventService eventService = new EventServiceImpl();
+public class EventController {
+
+    private EventServiceImpl eventService;
 
     private Stage primaryStage;
 
-    public EventController() {
-    }
-
-    public EventController(String[] args) {
-        this.main(args);
-    }
-
-
-    public static void main(String[] args){
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public EventController(EventServiceImpl eventService, Stage primaryStage) {
         this.setPrimaryStage(primaryStage);
-        primaryStage.setResizable(false);
-        showMainScene();
+        this.setEventService(eventService);
 
     }
 
@@ -70,6 +60,7 @@ public class EventController extends Application{
     private void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
+
 
     private List<String> getAllEvents(){
         List<String> eventsList = new ArrayList<>();
@@ -93,7 +84,18 @@ public class EventController extends Application{
     }
 
     public void showCreateChoicePage(){
+        BorderPane mainLayout = new BorderPane();
+
+        HBox topLayout = new HBox();
+        HBox centerLayout = new HBox();
+        HBox bottomLayout = new HBox();
+        topLayout.setAlignment(Pos.CENTER);
+        bottomLayout.setAlignment(Pos.CENTER);
+        centerLayout.setAlignment(Pos.CENTER);
+
         Label label = new Label("Please choose the type of event you want to create");
+
+        topLayout.getChildren().add(label);
 
         final ObservableList<String> options = FXCollections.observableArrayList(
                 "Meeting",
@@ -102,7 +104,10 @@ public class EventController extends Application{
 
         final ComboBox comboBox = new ComboBox(options);
 
+        centerLayout.getChildren().add(comboBox);
+
         Button okButton = new Button("OK");
+        Button cancelButton = new Button("Cancel");
 
         okButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -116,11 +121,20 @@ public class EventController extends Application{
             }
         });
 
-        VBox layout = new VBox(30);
+        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                showMainScene();
+            }
+        });
 
-        layout.getChildren().addAll(label, comboBox, okButton);
+        bottomLayout.getChildren().addAll(okButton, cancelButton);
 
-        Scene thisScene = new Scene(layout,200, 200);
+        mainLayout.setTop(topLayout);
+        mainLayout.setCenter(centerLayout);
+        mainLayout.setBottom(bottomLayout);
+
+        Scene thisScene = new Scene(mainLayout,500, 500);
 
         setScene(thisScene, "Select event type");
     }
@@ -626,6 +640,9 @@ public class EventController extends Application{
         setScene(thisScene, "Choose scene to delete");
     }
 
+    public void setEventService(EventServiceImpl eventService) {
+        this.eventService = eventService;
+    }
 }
 
 

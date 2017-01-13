@@ -8,12 +8,15 @@ import app.Common.models.ViewModels.TaskView;
 import app.DataLayer.domain.models.EventDA;
 import app.DataLayer.domain.models.MeetingDA;
 import app.DataLayer.domain.models.TaskDA;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 /**
  * Created by Ico on 29.12.2016 г..
  */
+@Component
 public class MeetingFactory implements EventFactory {
 
     @Override
@@ -27,11 +30,12 @@ public class MeetingFactory implements EventFactory {
         createdEvent.setMarker(Marker.valueOf(meetingView.getMarker()));
         createdEvent.setLocation(meetingView.getLocation());
 
-        meetingDate.setDate(Integer.parseInt(meetingView.getDay()));
-        meetingDate.setMonth(Integer.parseInt(meetingView.getMonth()));
-        meetingDate.setYear(Integer.parseInt(meetingView.getYear()));
+        meetingDate.setDate(inputEvent.getDate().getDay());
+        meetingDate.setMonth(inputEvent.getDate().getMonth());
+        meetingDate.setYear(inputEvent.getDate().getYear());
         meetingDate.setHours(Integer.parseInt(meetingView.getHour()));
         meetingDate.setMinutes(Integer.parseInt(meetingView.getMinutes()));
+        createdEvent.setDateTime(meetingDate);
 
         return createdEvent;
     }

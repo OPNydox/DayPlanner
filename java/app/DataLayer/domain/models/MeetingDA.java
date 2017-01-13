@@ -29,7 +29,7 @@ public class MeetingDA extends EventDA {
     @Override
     public String toString() {
         Date exportDate = super.getDateTime();
-        return String.format("Meeting on %d-%d-$d at %d:%d at %s", exportDate.getDay(), exportDate.getMonth(),
+        return String.format("Meeting on %d-%d-%d at %d:%d at %s", exportDate.getDay(), exportDate.getMonth(),
                 exportDate.getYear(), exportDate.getHours(), exportDate.getMinutes(), this.getLocation());
     }
 }

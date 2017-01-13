@@ -22,7 +22,7 @@ public abstract class EventDA {
     private String name;
 
     @Column(name = "date_time")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateTime;
 
     @Column(name = "description")

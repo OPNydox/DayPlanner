@@ -18,16 +18,20 @@ import java.util.List;
 /**
  * Created by Ico on 28.12.2016 г..
  */
-@Service(value = "eventService")
+@Service
+@Qualifier(value = "eventService")
 public class EventServiceImpl implements EventService {
 
-    @Autowired
     private FactoryProducer factoryProducer = new FactoryProducer();
 
-    @Autowired
-    @Qualifier("eventRepository")
     private EventRepository eventRepository;
 
+    public EventServiceImpl() {
+    }
+
+    public EventServiceImpl(EventRepository eventRepository) {
+        this.setEventRepository(eventRepository);
+    }
 
     @Override
     public void registerEvent(EventView eventToRegister) {
@@ -62,6 +66,7 @@ public class EventServiceImpl implements EventService {
 
     }
 
-
-
+    private void setEventRepository(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 }
