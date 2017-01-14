@@ -6,6 +6,7 @@ import app.Common.enums.Marker;
 import app.Common.models.ViewModels.EventView;
 import app.Common.models.ViewModels.MeetingView;
 import app.Common.models.ViewModels.TaskView;
+import app.Common.utilities.DateConverter;
 import app.DataLayer.domain.models.EventDA;
 import app.DataLayer.domain.models.MeetingDA;
 import app.DataLayer.domain.models.TaskDA;
@@ -23,16 +24,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import jfxtras.scene.control.agenda.Agenda;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 
 @SpringBootApplication
@@ -87,7 +88,6 @@ public class Main  extends Application{
     }
 
 
-
     private void setPrimaryStage(Stage primaryStage) {
         this.window = primaryStage;
     }
@@ -100,26 +100,27 @@ public class Main  extends Application{
         eventService.updateEvent(eventToUpdate);
     }
 
-    private List<String> getAllEvents(){
-        List allEventsAsStrings = new ArrayList();
-
+    private List<EventDA> getAllEvents(){
         List<EventDA> allEvents = eventService.getEvents();
 
-        for (EventDA event : allEvents) {
-            allEventsAsStrings.add(event.toString());
+
+        return allEvents;
+    }
+
+    private List<String> getAllEventsAsString(List<EventDA> events){
+        List<String> eventsAsStrings = new LinkedList<>();
+
+        for (EventDA event : events) {
+            eventsAsStrings.add(event.toString());
         }
 
-        return allEventsAsStrings;
+        return eventsAsStrings;
     }
 
     private EventDA getEventByName(String name){
         return eventService.getEventByName(name);
     }
 
-    private LocalDate dateToLocalDate(Date date){
-        LocalDate resultLocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        return resultLocalDate;
-    }
 
     public void showCreateChoicePage(){
         BorderPane mainLayout = new BorderPane();
@@ -208,6 +209,7 @@ public class Main  extends Application{
 
         Button deleteEventButton = new Button("Delete Event");
         Button getAllEventsButton = new Button("Show All Events");
+        Button calendarButton = new Button("Show calendar");
 
         getAllEventsButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -223,7 +225,19 @@ public class Main  extends Application{
             }
         });
 
-        vBox.getChildren().addAll(welcomeLabel, createButton, updateEventButton, deleteEventButton, getAllEventsButton);
+        calendarButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                showCalendarScene();
+            }
+        });
+
+        vBox.getChildren().addAll(welcomeLabel,
+                createButton,
+                updateEventButton,
+                deleteEventButton,
+                getAllEventsButton,
+                calendarButton);
 
         borderPane.setCenter(vBox);
 
@@ -291,8 +305,9 @@ public class Main  extends Application{
             @Override
             public void handle(ActionEvent event) {
                 TaskView newTask = new TaskView();
+
                 newTask.setName(nameTextField.getText());
-                newTask.setDate(localDateToDate(datePicker.getValue()));
+                newTask.setDate(DateConverter.dateToCalendar(DateConverter.LocalDateToDate(datePicker.getValue())));
                 newTask.setDescription(descriptionText.getText());
                 newTask.setMarker(markerComboBox.getValue());
                 newTask.setHour(hourTextField.getText());
@@ -375,7 +390,7 @@ public class Main  extends Application{
             public void handle(ActionEvent event) {
                 MeetingView newMeeting = new MeetingView();
                 newMeeting.setName(nameTextField.getText());
-                newMeeting.setDate(localDateToDate(datePicker.getValue()));
+                newMeeting.setDate(DateConverter.dateToCalendar(DateConverter.LocalDateToDate(datePicker.getValue())));
                 newMeeting.setDescription(descriptionText.getText());
                 newMeeting.setMarker(markerComboBox.getValue());
                 newMeeting.setHour(hourTextField.getText());
@@ -404,7 +419,7 @@ public class Main  extends Application{
 
         ListView<String> allEventsList = new ListView<>();
 
-        ObservableList<String> observableList = FXCollections.observableArrayList(getAllEvents());
+        ObservableList<String> observableList = FXCollections.observableArrayList(getAllEventsAsString(getAllEvents()));
 
         allEventsList.setItems(observableList);
 
@@ -512,9 +527,9 @@ public class Main  extends Application{
 
 
         TextField nameTextField = new TextField(task.getName());
-        DatePicker datePicker = new DatePicker(dateToLocalDate(task.getDateTime()));
-        TextField hourTextField = new TextField( Integer.toString(task.getDateTime().getHours()));
-        TextField minutesTextField = new TextField(Integer.toString(task.getDateTime().getMinutes()));
+        DatePicker datePicker = new DatePicker(DateConverter.dateToLocalDate(DateConverter.calendarToDate(task.getDateTime())));
+        TextField hourTextField = new TextField( Integer.toString(task.getDateTime().getTime().getHours()));
+        TextField minutesTextField = new TextField(Integer.toString(task.getDateTime().getTime().getMinutes()));
         TextArea descriptionText = new TextArea(task.getDescription());
 
         ObservableList<String> options = FXCollections.observableArrayList(
@@ -549,12 +564,12 @@ public class Main  extends Application{
         okButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Date newDate = localDateToDate(datePicker.getValue());
+                Date newDate = DateConverter.LocalDateToDate(datePicker.getValue());
                 newDate.setHours(Integer.parseInt(hourTextField.getText()));
                 newDate.setMinutes(Integer.parseInt(minutesTextField.getText()));
 
                 task.setName(nameTextField.getText());
-                task.setDateTime(newDate);
+                task.setDateTime(DateConverter.dateToCalendar(newDate));
                 task.setDescription(descriptionText.getText());
                 task.setMarker(Marker.valueOf(markerComboBox.getValue()));
                 updateEvent(task);
@@ -594,9 +609,9 @@ public class Main  extends Application{
 
 
         TextField nameTextField = new TextField(meeting.getName());
-        DatePicker datePicker = new DatePicker(dateToLocalDate(meeting.getDateTime()));
-        TextField hourTextField = new TextField(Integer.toString(meeting.getDateTime().getHours()));
-        TextField minutesTextField = new TextField(Integer.toString(meeting.getDateTime().getMinutes()));
+        DatePicker datePicker = new DatePicker(DateConverter.dateToLocalDate(DateConverter.calendarToDate(meeting.getDateTime())));
+        TextField hourTextField = new TextField(Integer.toString(meeting.getDateTime().getTime().getHours()));
+        TextField minutesTextField = new TextField(Integer.toString(meeting.getDateTime().getTime().getHours()));
         TextArea descriptionText = new TextArea(meeting.getDescription());
         TextField locationText = new TextField(meeting.getLocation());
 
@@ -631,12 +646,12 @@ public class Main  extends Application{
         okButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Date newDate = localDateToDate(datePicker.getValue());
+                Date newDate = DateConverter.LocalDateToDate(datePicker.getValue());
                 newDate.setHours(Integer.parseInt(hourTextField.getText()));
                 newDate.setMinutes(Integer.parseInt(minutesTextField.getText()));
 
                 meeting.setName(nameTextField.getText());
-                meeting.setDateTime(newDate);
+                meeting.setDateTime(DateConverter.dateToCalendar(newDate));
                 meeting.setDescription(descriptionText.getText());
                 meeting.setMarker(Marker.valueOf(markerComboBox.getValue()));
                 meeting.setLocation(locationText.getText());
@@ -748,13 +763,42 @@ public class Main  extends Application{
         setScene(thisScene, "Choose scene to delete");
     }
 
-    public Date localDateToDate(LocalDate dateToConvert){
-        Date date = Date.from(dateToConvert.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    public void showCalendarScene(){
 
-        return date;
+        BorderPane mainLayout = new BorderPane();
+
+        Agenda agenda = new Agenda();
+
+        List<EventDA> allEvents = getAllEvents();
+
+        for (EventDA event : allEvents) {
+            Agenda.Appointment appointment = new Agenda.AppointmentImpl();
+
+            appointment.setStartTime(event.getDateTime());
+            appointment.setDescription(event.getDescription());
+            Calendar calendar = event.getDateTime();
+            calendar.add(Calendar.HOUR, 1);
+            appointment.setEndTime(calendar);
+
+            agenda.appointments().add(appointment);
+        }
+
+        Button cancelButton = new Button("Cancel");
+
+        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                showMainScene();
+            }
+        });
+
+        mainLayout.setCenter(agenda);
+        mainLayout.setBottom(cancelButton);
+
+        Scene thisScene  = new Scene(mainLayout, 800, 600);
+
+        setScene(thisScene, "calendar");
     }
 
-    public void setEventService(EventServiceImpl eventService) {
-        this.eventService = eventService;
-    }
+
 }

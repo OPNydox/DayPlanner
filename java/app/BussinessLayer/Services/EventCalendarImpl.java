@@ -53,9 +53,6 @@ public class EventCalendarImpl implements EventCalendarService{
 
     @Override
     public void add(EventDA eventToAdd) {
-        Day eventDay = this.getEventDay(eventToAdd.getDateTime());
-
-        eventDay.add(eventToAdd);
     }
 
     @Override

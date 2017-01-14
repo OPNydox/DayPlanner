@@ -1,5 +1,6 @@
 package app.Common.models.ViewModels;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -11,11 +12,7 @@ public abstract class EventView {
 
     private String marker;
 
-    private String hour;
-
-    private String minutes;
-
-    private Date date;
+    private Calendar date;
 
     private String description;
 
@@ -41,27 +38,20 @@ public abstract class EventView {
         this.marker = marker;
     }
 
-    public String getHour() {
-        return hour;
-    }
-
     public void setHour(String hour) {
-        this.hour = hour;
-    }
-
-    public String getMinutes() {
-        return minutes;
+        this.date.add(Calendar.HOUR, Integer.parseInt(hour));
     }
 
     public void setMinutes(String minutes) {
-        this.minutes = minutes;
+
+        this.date.add(Calendar.MINUTE, Integer.parseInt(minutes));
     }
 
-    public Date getDate() {
+    public Calendar getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Calendar date) {
         this.date = date;
     }
 

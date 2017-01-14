@@ -1,11 +1,9 @@
 package app.FrontEnd.Controllers;
 
 import app.BussinessLayer.Services.EventServiceImpl;
-import app.BussinessLayer.Services.Interfaces.EventService;
 import app.DataLayer.domain.models.EventDA;
 import app.DataLayer.domain.models.MeetingDA;
 import app.DataLayer.domain.models.TaskDA;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,12 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -78,7 +70,7 @@ public class EventController {
         return new TaskDA();
     }
 
-    private LocalDate dateToLocalDate(Date date){
+    private LocalDate calendarToLocalDate(Date date){
         LocalDate resultLocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         return resultLocalDate;
     }
@@ -440,8 +432,8 @@ public class EventController {
 
         TextField nameTextField = new TextField(task.getName());
         DatePicker datePicker = new DatePicker();
-        TextField hourTextField = new TextField( Integer.toString(task.getDateTime().getHours()));
-        TextField minutesTextField = new TextField(Integer.toString(task.getDateTime().getMinutes()));
+        TextField hourTextField = new TextField( Integer.toString(task.getDateTime().getTime().getHours()));
+        TextField minutesTextField = new TextField(Integer.toString(task.getDateTime().getTime().getMinutes()));
         TextArea descriptionText = new TextArea(task.getDescription());
 
         ObservableList<String> options = FXCollections.observableArrayList(
@@ -502,11 +494,11 @@ public class EventController {
         gridPane.add(selectLocationLabel, 1, 7);
 
 
-        TextField nameTextField = new TextField(meeting.getName());
-        DatePicker datePicker = new DatePicker(dateToLocalDate(meeting.getDateTime()));
-        TextField hourTextField = new TextField(Integer.toString(meeting.getDateTime().getHours()));
-        TextField minutesTextField = new TextField(Integer.toString(meeting.getDateTime().getMinutes()));
-        TextArea descriptionText = new TextArea(meeting.getDescription());
+       TextField nameTextField = new TextField(meeting.getName());
+       DatePicker datePicker = new DatePicker();
+       TextField hourTextField = new TextField();
+       TextField minutesTextField = new TextField();
+       TextArea descriptionText = new TextArea(meeting.getDescription());
         TextField locationText = new TextField(meeting.getLocation());
 
         ObservableList<String> options = FXCollections.observableArrayList(

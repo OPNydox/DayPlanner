@@ -9,6 +9,7 @@ import app.DataLayer.domain.models.EventDA;
 import app.DataLayer.domain.models.MeetingDA;
 import app.DataLayer.domain.models.TaskDA;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -19,19 +20,13 @@ public class TaskFactory implements EventFactory {
     @Override
     public EventDA createEvent(EventView inputEvent) {
         TaskDA createdEvent = new TaskDA();
-        Date taskDate = new Date();
 
-        taskDate.setDate(inputEvent.getDate().getDay());
-        taskDate.setMonth(inputEvent.getDate().getMonth());
-        taskDate.setYear(inputEvent.getDate().getYear());
+
         createdEvent.setName(inputEvent.getName());
         createdEvent.setDescription(inputEvent.getDescription());
         createdEvent.setMarker(Marker.valueOf(inputEvent.getMarker()));
+        createdEvent.setDateTime(inputEvent.getDate());
 
-        taskDate.setHours(Integer.parseInt(inputEvent.getHour()));
-        taskDate.setMinutes(Integer.parseInt(inputEvent.getMinutes()));
-
-        createdEvent.setDateTime(taskDate);
 
         return createdEvent;
     }
