@@ -19,8 +19,10 @@ public class Validator {
             throw new IllegalArgumentException("Event must have a marker!");
         }
 
-        if (eventView.getName().isEmpty() || eventView.getName() == null){
-            throw new IllegalArgumentException("Event must have a name!");
+        try {
+            eventView.getName();
+        }catch (NullPointerException ex){
+            throw new IllegalArgumentException("Please pick a marker");
         }
 
         if (eventService.getEventByName(eventView.getName()) != null){
