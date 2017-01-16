@@ -1,5 +1,8 @@
 package app.Common.models.ViewModels;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Ico on 28.12.2016 г..
  */
@@ -9,15 +12,7 @@ public abstract class EventView {
 
     private String marker;
 
-    private String hour;
-
-    private String minutes;
-
-    private String day;
-
-    private String month;
-
-    private String year;
+    private Calendar date;
 
     private String description;
 
@@ -43,44 +38,21 @@ public abstract class EventView {
         this.marker = marker;
     }
 
-    public String getHour() {
-        return hour;
-    }
-
     public void setHour(String hour) {
-        this.hour = hour;
-    }
-
-    public String getMinutes() {
-        return minutes;
+        this.date.add(Calendar.HOUR, Integer.parseInt(hour));
     }
 
     public void setMinutes(String minutes) {
-        this.minutes = minutes;
+
+        this.date.add(Calendar.MINUTE, Integer.parseInt(minutes));
     }
 
-    public String getDay() {
-        return day;
+    public Calendar getDate() {
+        return date;
     }
 
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public void setMonth(String month) {
-        this.month = month;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
+    public void setDate(Calendar date) {
+        this.date = date;
     }
 
     public String getDescription() {

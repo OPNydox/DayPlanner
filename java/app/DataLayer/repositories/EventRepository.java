@@ -1,8 +1,6 @@
 package app.DataLayer.repositories;
 
-import app.DataLayer.domain.models.EventDA;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import app.Common.models.daModels.eventModels.EventDA;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +12,6 @@ public interface EventRepository extends CrudRepository<EventDA, Long> {
     EventDA findOneByName(String name);
 
     void deleteByName(String name);
+
 
 }

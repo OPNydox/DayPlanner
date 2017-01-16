@@ -1,7 +1,7 @@
 package app.BussinessLayer.Factories.Interfaces;
 
 import app.Common.models.ViewModels.EventView;
-import app.DataLayer.domain.models.EventDA;
+import app.Common.models.daModels.eventModels.EventDA;
 
 
 /**

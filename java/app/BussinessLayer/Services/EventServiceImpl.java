@@ -4,30 +4,32 @@ import app.BussinessLayer.Factories.FactoryProducer;
 import app.BussinessLayer.Factories.Interfaces.EventFactory;
 import app.BussinessLayer.Services.Interfaces.EventService;
 import app.Common.models.ViewModels.EventView;
-import app.DataLayer.domain.models.EventDA;
+import app.Common.models.daModels.eventModels.EventDA;
 import app.DataLayer.repositories.EventRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
  * Created by Ico on 28.12.2016 г..
  */
-@Service(value = "eventService")
+@Service
+@Qualifier(value = "eventService")
 public class EventServiceImpl implements EventService {
 
-    @Autowired
     private FactoryProducer factoryProducer = new FactoryProducer();
 
-    @Autowired
-    @Qualifier("eventRepository")
     private EventRepository eventRepository;
 
+    public EventServiceImpl() {
+    }
+
+    public EventServiceImpl(EventRepository eventRepository) {
+        this.setEventRepository(eventRepository);
+    }
 
     @Override
     public void registerEvent(EventView eventToRegister) {
@@ -62,6 +64,35 @@ public class EventServiceImpl implements EventService {
 
     }
 
+    private void setEventRepository(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
+    public List<EventDA> getEventsByDate(Calendar date){
+        List<EventDA> events = this.getEvents();
+        List<EventDA> result = new ArrayList<>();
 
+        for (EventDA event : events) {
+            Calendar eventDate = event.getDateTime();
+            if (eventDate.get(Calendar.DATE) == date.get(Calendar.DATE)){
+                result.add(event);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<EventDA> getEventsByMonth(int month) {
+        List<EventDA> allEvents = getEvents();
+        List<EventDA> result = new ArrayList<>();
+
+        for (EventDA event : allEvents) {
+            if (event.getDateTime().get(Calendar.MONTH) == month){
+                result.add(event);
+            }
+        }
+
+        return result;
+    }
 }

@@ -6,7 +6,7 @@ import app.BussinessLayer.CalendarElements.Months.Interfaces.Month;
 import app.BussinessLayer.CalendarElements.Years.Interfaces.Year;
 import app.BussinessLayer.Services.Interfaces.EventCalendarService;
 import app.BussinessLayer.Services.Interfaces.EventService;
-import app.DataLayer.domain.models.EventDA;
+import app.Common.models.daModels.eventModels.EventDA;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -53,9 +53,6 @@ public class EventCalendarImpl implements EventCalendarService{
 
     @Override
     public void add(EventDA eventToAdd) {
-        Day eventDay = this.getEventDay(eventToAdd.getDateTime());
-
-        eventDay.add(eventToAdd);
     }
 
     @Override

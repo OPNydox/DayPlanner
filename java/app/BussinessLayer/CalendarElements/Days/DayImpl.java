@@ -1,7 +1,7 @@
 package app.BussinessLayer.CalendarElements.Days;
 
 import app.BussinessLayer.CalendarElements.Days.Interfaces.Day;
-import app.DataLayer.domain.models.EventDA;
+import app.Common.models.daModels.eventModels.EventDA;
 
 import java.util.HashSet;
 import java.util.Set;

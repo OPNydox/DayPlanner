@@ -1,6 +1,6 @@
 package app.BussinessLayer.Services.Interfaces;
 
-import app.DataLayer.domain.models.EventDA;
+import app.Common.models.daModels.eventModels.EventDA;
 
 import java.util.Date;
 import java.util.List;
