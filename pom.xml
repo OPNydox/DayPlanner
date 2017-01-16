@@ -84,6 +84,29 @@
             <systemPath>${java.home}/lib/ext/jfxrt.jar</systemPath>
             <scope>system</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jfxtras</groupId>
+            <artifactId>jfxtras-all</artifactId>
+            <version>8.0-r5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jfxtras</groupId>
+            <artifactId>jfxtras-agenda</artifactId>
+            <version> 8.0-r5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.toedter</groupId>
+            <artifactId>jcalendar</artifactId>
+            <version>1.4</version>
+        </dependency>
 
     </dependencies>
+
+    <scm>
+        <connection>scm:git@github.com:jfxtras/jfxtras.git</connection>
+        <developerConnection>scm:git@github.com:jfxtras/jfxtras.git</developerConnection>
+        <url>scm:git@github.com:jfxtras/jfxtras.git</url>
+    </scm>
 </project>
