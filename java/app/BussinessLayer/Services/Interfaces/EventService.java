@@ -2,14 +2,12 @@ package app.BussinessLayer.Services.Interfaces;
 
 import app.Common.models.ViewModels.EventView;
 import app.DataLayer.domain.models.EventDA;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by Ico on 28.12.2016 г..
  */
-@Service
 public interface EventService {
     void registerEvent(EventView eventToRegister);
 

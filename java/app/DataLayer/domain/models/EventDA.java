@@ -3,7 +3,6 @@ package app.DataLayer.domain.models;
 import app.Common.enums.Marker;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -23,8 +22,8 @@ public abstract class EventDA {
     private String name;
 
     @Column(name = "date_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Calendar dateTime;
+    @Temporal(TemporalType.DATE)
+    private Date dateTime;
 
     @Column(name = "description")
     private String description;
@@ -52,11 +51,11 @@ public abstract class EventDA {
         this.name = name;
     }
 
-    public Calendar getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(Calendar dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
 

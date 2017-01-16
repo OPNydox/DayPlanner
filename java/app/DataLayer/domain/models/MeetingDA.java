@@ -3,7 +3,6 @@ package app.DataLayer.domain.models;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -29,9 +28,8 @@ public class MeetingDA extends EventDA {
 
     @Override
     public String toString() {
-       // Calendar exportDate = super.getDateTime();
-       // return String.format("Meeting on %d-%d-%d at %d:%d at %s", exportDate.getDay(), exportDate.getMonth(),
-       //         exportDate.getYear(), exportDate.getHours(), exportDate.getMinutes(), this.getLocation());
-        return new String();
+        Date exportDate = super.getDateTime();
+        return String.format("Meeting on %d-%d-$d at %d:%d at %s", exportDate.getDay(), exportDate.getMonth(),
+                exportDate.getYear(), exportDate.getHours(), exportDate.getMinutes(), this.getLocation());
     }
 }

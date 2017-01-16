@@ -1,7 +1,6 @@
 package app.FrontEnd.Views;
 
 import app.FrontEnd.Controllers.EventController;
-import app.FrontEnd.EventHandlers.CreateEventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

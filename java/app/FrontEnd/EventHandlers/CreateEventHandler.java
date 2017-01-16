@@ -1,7 +1,6 @@
 package app.FrontEnd.EventHandlers;
 
 import app.FrontEnd.Controllers.EventController;
-import app.FrontEnd.Views.CreateChoicePage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
