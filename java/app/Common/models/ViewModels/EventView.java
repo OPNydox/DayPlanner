@@ -1,7 +1,6 @@
 package app.Common.models.ViewModels;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Ico on 28.12.2016 г..

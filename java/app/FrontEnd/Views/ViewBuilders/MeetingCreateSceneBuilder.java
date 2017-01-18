@@ -48,6 +48,9 @@ public class MeetingCreateSceneBuilder implements SceneBuilder{
 
         TextField nameTextField = new TextField();
         DatePicker datePicker = new DatePicker();
+
+        datePicker.setEditable(false);
+
         TextField hourTextField = new TextField();
         TextField minutesTextField = new TextField();
         TextArea descriptionText = new TextArea();

@@ -39,7 +39,9 @@ public class CalendarSceneBuilder implements SceneBuilder{
             @Override
             public void propertyChange(PropertyChangeEvent e) {
                 final Calendar c = (Calendar) e.getNewValue();
-                MyListView listView = new MyListView("Events for day", controller.getAllEventsByDateStringed(c));
+                MyListView listView = new MyListView("Events for day",
+                        controller.getAllEventsByDateStringed(c),
+                        controller);
                 listView.setVisible(true);
             }
         });
@@ -56,7 +58,9 @@ public class CalendarSceneBuilder implements SceneBuilder{
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+
                 SceneBuilder mainScene = new MainSceneBuilder(controller);
+                mainScene.showScene();
             }
         });
 
@@ -64,7 +68,8 @@ public class CalendarSceneBuilder implements SceneBuilder{
             @Override
             public void handle(ActionEvent event) {
                 List<String> listOfEvents =
-                        controller.getAllEventByMonthStringed(jCalendar.getMonthChooser().getMonth());
+                        controller.getAllEventByMonthStringed(jCalendar.getMonthChooser().getMonth(),
+                        jCalendar.getYearChooser().getYear());
 
                 ListView<String> eventView = new ListView<String>( FXCollections.observableArrayList(listOfEvents));
 

@@ -51,7 +51,12 @@ public class UpdateTaskSceneBuilder implements SceneBuilder{
 
 
         TextField nameTextField = new TextField(task.getName());
-        DatePicker datePicker = new DatePicker(DateConverter.dateToLocalDate(DateConverter.calendarToDate(task.getDateTime())));
+        DatePicker datePicker = new DatePicker(DateConverter.dateToLocalDate(
+                DateConverter.calendarToDate(
+                        task.getDateTime())));
+
+        datePicker.setEditable(false);
+
         TextField hourTextField = new TextField( Integer.toString(task.getDateTime().getTime().getHours()));
         TextField minutesTextField = new TextField(Integer.toString(task.getDateTime().getTime().getMinutes()));
         TextArea descriptionText = new TextArea(task.getDescription());
@@ -81,8 +86,10 @@ public class UpdateTaskSceneBuilder implements SceneBuilder{
 
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event)
+            {
                 MainSceneBuilder mainScene = new MainSceneBuilder(controller);
+                mainScene.showScene();
             }
         });
 
@@ -113,7 +120,8 @@ public class UpdateTaskSceneBuilder implements SceneBuilder{
                         Alert confermationAlert = new Alert(Alert.AlertType.CONFIRMATION);
                         confermationAlert.setTitle("Confirmation");
                         confermationAlert.setHeaderText("Are you sure you want to delete this event?");
-                        confermationAlert.setContentText(String.format("Are you sure you want to delete event with the mane" +
+                        confermationAlert.setContentText(String.format("Are you sure you want to delete event " +
+                                "with the name" +
                                 task.getName()));
 
                         ButtonType yesButton = new ButtonType("Yes");

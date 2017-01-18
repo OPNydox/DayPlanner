@@ -56,6 +56,9 @@ public class UpdateMeetingSceneBuilder implements SceneBuilder {
 
         TextField nameTextField = new TextField(meeting.getName());
         DatePicker datePicker = new DatePicker(DateConverter.dateToLocalDate(DateConverter.calendarToDate(meeting.getDateTime())));
+
+        datePicker.setEditable(false);
+
         TextField hourTextField = new TextField(Integer.toString(meeting.getDateTime().getTime().getHours()));
         TextField minutesTextField = new TextField(Integer.toString(meeting.getDateTime().getTime().getHours()));
         TextArea descriptionText = new TextArea(meeting.getDescription());

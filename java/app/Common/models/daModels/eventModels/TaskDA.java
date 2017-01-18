@@ -1,9 +1,8 @@
 package app.Common.models.daModels.eventModels;
 
-import app.Common.models.daModels.eventModels.EventDA;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.util.Calendar;
 
 /**
  * Created by Ico on 27.12.2016 г..
@@ -18,11 +17,14 @@ public class TaskDA extends EventDA {
     @Override
     public String toString() {
 
-        return String.format("TO DO:" +
+        Calendar taskDate = super.getDateTime();
+
+        return String.format(taskDate.getTime().toString() +
+                " Task: " +
+                "|" +
                 super.getName() +
-                "on" +
-                super.getDateTime().toString() +
-                "description:" +
+                "|" +
+                " Description: " +
                 super.getDescription());
     }
 }

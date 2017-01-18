@@ -1,10 +1,9 @@
 package app.Common.models.daModels.eventModels;
 
-import app.Common.models.daModels.eventModels.EventDA;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.util.Calendar;
 
 /**
  * Created by Ico on 27.12.2016 г..
@@ -30,13 +29,14 @@ public class MeetingDA extends EventDA {
     @Override
     public String toString() {
 
-        return String.format("Meeting" +
+        Calendar meetingDate = super.getDateTime();
+
+        return String.format(meetingDate.getTime().toString() +
+                " " +
+                "Meeting:" +
+                " |" +
                 super.getName() +
-                "on" +
-                super.getDateTime().toString() +
-                " at " +
-                this.getLocation() +
-                "description: " +
+                "| Description: " +
                 super.getDescription());
     }
 }

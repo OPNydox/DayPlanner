@@ -24,5 +24,5 @@ public interface EventService {
 
     List<EventDA> getEventsByDate(Calendar date);
 
-    List<EventDA> getEventsByMonth(int month);
+    List<EventDA> getEventsByMonth(int month, int year);
 }

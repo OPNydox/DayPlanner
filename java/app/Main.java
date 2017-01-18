@@ -2,46 +2,24 @@ package app;
 
 import app.BussinessLayer.Services.EventServiceImpl;
 import app.BussinessLayer.Services.Interfaces.EventService;
-import app.Common.enums.Marker;
 import app.Common.models.ViewModels.EventView;
-import app.Common.models.ViewModels.MeetingView;
-import app.Common.models.ViewModels.TaskView;
-import app.Common.utilities.DateConverter;
 import app.Common.models.daModels.eventModels.EventDA;
-import app.Common.models.daModels.eventModels.MeetingDA;
-import app.Common.models.daModels.eventModels.TaskDA;
 import app.DataLayer.repositories.EventRepository;
 import app.FrontEnd.Utilities.SceneSetter;
-import app.FrontEnd.Utilities.Validator;
-import app.FrontEnd.Views.MyListView;
 import app.FrontEnd.Views.ViewBuilders.MainSceneBuilder;
-import com.toedter.calendar.JCalendar;
+import app.FrontEnd.Views.modelViews.EventViewerImpl;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingNode;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -131,6 +109,7 @@ public class Main  extends Application{
 
     public List<String> getAllEventsAsString(List<EventDA> events){
         List<String> eventsAsStrings = new LinkedList<>();
+        EventViewerImpl eventViewer = new EventViewerImpl();
 
         for (EventDA event : events) {
             eventsAsStrings.add(event.toString());
@@ -147,8 +126,8 @@ public class Main  extends Application{
         return getAllEventsAsString(eventService.getEventsByDate(date));
     }
 
-    public List<String> getAllEventByMonthStringed(int month){
-        return getAllEventsAsString(eventService.getEventsByMonth(month));
+    public List<String> getAllEventByMonthStringed(int month, int year){
+        return getAllEventsAsString(eventService.getEventsByMonth(month, year));
     }
 
 

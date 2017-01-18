@@ -83,12 +83,14 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventDA> getEventsByMonth(int month) {
+    public List<EventDA> getEventsByMonth(int month, int year) {
         List<EventDA> allEvents = getEvents();
         List<EventDA> result = new ArrayList<>();
 
         for (EventDA event : allEvents) {
-            if (event.getDateTime().get(Calendar.MONTH) == month){
+            Calendar dateTimeOfEvent = event.getDateTime();
+            if (dateTimeOfEvent.get(Calendar.MONTH) == month &&
+                    dateTimeOfEvent.get(Calendar.YEAR) == year){
                 result.add(event);
             }
         }
